@@ -7,7 +7,7 @@ YEL	= \033[0;33m
 BLU	= \033[0;34m
 GRN	= \033[0;32m
 
-NAME	=	philosophers
+NAME	=	philo
 
 HEADERS	=	headers
 

@@ -1,0 +1,3 @@
+[submodule "philosophers_tester"]
+	path = philosophers_tester
+	url = git@github.com:mikysett/philosophers_tester.git
