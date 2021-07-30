@@ -15,6 +15,8 @@ static void	ft_print_err(t_exit_code exit_code)
 		printf("Error: Wrong number of arguments\n");
 	else if (exit_code == WRONG_ARGUMENT_TYPE)
 		printf("Error: Arguments must be positive integers\n");
+	else if (exit_code == MEMORY_FAIL)
+		printf("Error: Can't allocate memory\n");
 	else
 		printf("Error: Unknown error\n");
 }
