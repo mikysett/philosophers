@@ -16,15 +16,9 @@ DIR_S	=	srcs
 DIR_O	=	obj
 
 # Using wildcards: $(shell find $(DIR_S) -name *.c)
-BASIC_SRCS	:=	$(shell find $(DIR_S) -name *.c)
-
-SRCS		:= $(BASIC_SRCS)
-
-BONUS_SRCS	:= $(BASIC_SRCS)
+SRCS		:= $(shell find $(DIR_S) -name *.c)
 
 OBJS		:= $(SRCS:%.c=$(DIR_O)/%.o)
-
-BONUS_OBJS	:= $(BONUS_SRCS:%.c=$(DIR_O)/%.o)
 
 SUB_DIR_O := $(shell find $(DIR_S) -type d)
 SUB_DIR_O := $(SUB_DIR_O:%=$(DIR_O)/%)
@@ -34,7 +28,7 @@ DEPS	=	$(shell find $(HEADERS) -name *.h)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS	=	-Wall -Wextra -fsanitize=address
 INCLUDES	= -I $(HEADERS)
 
 LIBS	=	
@@ -52,10 +46,6 @@ $(NAME):	$(DEPS) $(OBJS)
 
 all:		$(NAME)
 
-bonus:		$(DEPS) $(BONUS_OBJS)
-			$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(BONUS_OBJS) $(LIBS)
-			printf "$(WHT)[$(GRN)$(NAME) BONUS COMPILED$(WHT)]\n"
-
 clean:
 			$(RM) $(OBJS)
 			$(RM) $(BONUS_OBJS)
@@ -67,4 +57,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all bonus clean fclean re
+.PHONY:		all clean fclean re

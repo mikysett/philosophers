@@ -1,6 +1,10 @@
 #include "philosophers.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	return (0);
+	t_data	data;
+
+	data = ft_init_data(argc, argv);
+	
+	return (EXIT_SUCCESS);
 }
