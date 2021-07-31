@@ -17,6 +17,8 @@ static void	ft_print_err(t_exit_code exit_code)
 		printf("Error: Arguments must be positive integers\n");
 	else if (exit_code == MEMORY_FAIL)
 		printf("Error: Can't allocate memory\n");
+	else if (exit_code == TIMEVAL_ERROR)
+		printf("Error: Can't get time value\n");
 	else
 		printf("Error: Unknown error\n");
 }

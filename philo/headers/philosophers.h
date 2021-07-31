@@ -11,6 +11,10 @@
 
 # include "ft_types.h"
 # include "ft_core_util.h"
+# include "ft_time_util.h"
+# include "ft_forks_util.h"
 # include "ft_init_data.h"
+# include "ft_printer.h"
+# include "ft_philo_thread.h"
 
 #endif
