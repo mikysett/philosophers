@@ -5,7 +5,7 @@ static bool	ft_is_int(char *nb);
 static void	ft_delete_starting_zeros(char *nb);
 static int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
-int		ft_save_number(char *arr_nb)
+int	ft_save_number(char *arr_nb)
 {
 	int	nb;
 
@@ -62,7 +62,7 @@ static void	ft_delete_starting_zeros(char *nb)
 		while (i < nb_len)
 		{
 			nb[i] = nb[i + 1];
-			i++;	
+			i++;
 		}
 		ft_delete_starting_zeros(nb);
 	}

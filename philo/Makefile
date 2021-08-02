@@ -28,7 +28,7 @@ DEPS	=	$(shell find $(HEADERS) -name *.h)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -fsanitize=address
+CFLAGS	=	-O3 -Wall -Wextra -fsanitize=address
 INCLUDES	= -I $(HEADERS)
 
 LIBS	=	
