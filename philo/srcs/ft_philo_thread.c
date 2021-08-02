@@ -22,7 +22,7 @@ void	*ft_philo_thread(void *philo_void)
 
 bool	ft_eaten_enough(t_philo *philo)
 {
-	if (philo->nb_meals == philo->timings.nb_times_to_eat)
+	if (philo->nb_meals >= philo->timings.nb_times_to_eat)
 		return (true);
 	return (false);
 }
