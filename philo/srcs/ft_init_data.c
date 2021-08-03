@@ -82,7 +82,7 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 		philo[i].fork_left = &data->forks[prev_fork];
 		philo[i].is_fork_right_busy = &data->is_fork_busy[i];
 		philo[i].is_fork_left_busy = &data->is_fork_busy[prev_fork];
-		philo[i].printer_mutex = &data->printer_mutex;
+		philo[i].printer_mutex = data->printer_mutex;
 		i++;
 	}
 	return (philo);

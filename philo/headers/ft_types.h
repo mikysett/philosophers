@@ -5,6 +5,7 @@
 
 # define EAT_FOREVER		-1
 # define ONE_SEC_IN_USEC	1000000
+# define MIN_THINK_TIME		500
 
 typedef enum e_exit_code
 {
@@ -65,7 +66,7 @@ typedef struct e_data
 	pthread_mutex_t	*forks;
 	bool			*is_fork_busy;
 	pthread_t		*philo_threads;
-	pthread_mutex_t	printer_mutex;
+	pthread_mutex_t	*printer_mutex;
 }			t_data;
 
 #endif

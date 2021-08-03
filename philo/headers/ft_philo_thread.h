@@ -6,7 +6,9 @@ bool	ft_starved(t_philo *philo, int curr_time);
 bool	ft_eaten_enough(t_philo *philo);
 void	ft_do_dead(t_philo *philo);
 void	ft_try_eat(t_philo *philo, int curr_time);
-void	ft_do_sleep(t_philo *philo);
+void	ft_do_sleep(t_philo *philo, int curr_time);
 void	ft_do_think(t_philo *philo);
+int	ft_max_time_before_dying_in_ms(t_philo *philo,
+		int curr_time, int time_to_wait);
 
 #endif

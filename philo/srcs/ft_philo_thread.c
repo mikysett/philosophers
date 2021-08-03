@@ -15,7 +15,7 @@ void	*ft_philo_thread(void *philo_void)
 			ft_try_eat(philo, curr_time);
 		else if (philo->state == eating)
 		{
-			ft_do_sleep(philo);
+			ft_do_sleep(philo, curr_time);
 			if (ft_eaten_enough(philo))
 				break ;
 		}
@@ -59,16 +59,29 @@ void	ft_try_eat(t_philo *philo, int curr_time)
 	}
 }
 
-void	ft_do_sleep(t_philo *philo)
+void	ft_do_sleep(t_philo *philo, int curr_time)
 {
 	philo->state = sleeping;
 	ft_print_philo_state_or_kill(philo);
 	ft_release_forks(philo);
-	usleep(philo->timings.time_to_sleep * 1000);
+	usleep(ft_max_time_before_dying_in_ms(philo,
+			curr_time, philo->timings.time_to_sleep));
 }
 
 void	ft_do_think(t_philo *philo)
 {
 	philo->state = thinking;
 	ft_print_philo_state_or_kill(philo);
+	usleep(MIN_THINK_TIME);
+}
+
+int	ft_max_time_before_dying_in_ms(t_philo *philo,
+		int curr_time, int time_to_wait)
+{
+	const int	time_before_dying = philo->timings.time_to_die
+					- (curr_time - philo->last_eat_ts);
+
+	if (time_before_dying < time_to_wait)
+		return (time_before_dying * 1000);
+	return (time_to_wait * 1000);
 }
