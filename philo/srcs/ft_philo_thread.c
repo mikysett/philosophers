@@ -1,5 +1,10 @@
 #include "philosophers.h"
 
+static void	ft_do_dead(t_philo *philo);
+static void	ft_try_eat(t_philo *philo);
+static void	ft_do_sleep(t_philo *philo, int curr_time);
+static void	ft_do_think(t_philo *philo);
+
 void	*ft_philo_thread(void *philo_void)
 {
 	t_philo	*philo;
@@ -12,7 +17,7 @@ void	*ft_philo_thread(void *philo_void)
 		if (ft_starved(philo, curr_time))
 			ft_do_dead(philo);
 		else if (philo->state == thinking)
-			ft_try_eat(philo, curr_time);
+			ft_try_eat(philo);
 		else if (philo->state == eating)
 		{
 			ft_do_sleep(philo, curr_time);
@@ -25,28 +30,13 @@ void	*ft_philo_thread(void *philo_void)
 	return (philo_void);
 }
 
-bool	ft_eaten_enough(t_philo *philo)
-{
-	if (philo->timings.nb_times_to_eat != EAT_FOREVER
-		&& philo->nb_meals >= philo->timings.nb_times_to_eat)
-		return (true);
-	return (false);
-}
-
-bool	ft_starved(t_philo *philo, int curr_time)
-{
-	if (curr_time - philo->last_eat_ts >= philo->timings.time_to_die)
-		return (true);
-	return (false);
-}
-
-void	ft_do_dead(t_philo *philo)
+static void	ft_do_dead(t_philo *philo)
 {
 	philo->state = dead;
 	ft_print_philo_state_or_kill(philo);
 }
 
-void	ft_try_eat(t_philo *philo, int curr_time)
+static void	ft_try_eat(t_philo *philo)
 {
 	if (ft_take_forks(philo, philo->fork_right, philo->fork_left))
 	{
@@ -59,7 +49,7 @@ void	ft_try_eat(t_philo *philo, int curr_time)
 	}
 }
 
-void	ft_do_sleep(t_philo *philo, int curr_time)
+static void	ft_do_sleep(t_philo *philo, int curr_time)
 {
 	philo->state = sleeping;
 	ft_print_philo_state_or_kill(philo);
@@ -68,20 +58,9 @@ void	ft_do_sleep(t_philo *philo, int curr_time)
 			curr_time, philo->timings.time_to_sleep));
 }
 
-void	ft_do_think(t_philo *philo)
+static void	ft_do_think(t_philo *philo)
 {
 	philo->state = thinking;
 	ft_print_philo_state_or_kill(philo);
 	usleep(MIN_THINK_TIME);
-}
-
-int	ft_max_time_before_dying_in_ms(t_philo *philo,
-		int curr_time, int time_to_wait)
-{
-	const int	time_before_dying = philo->timings.time_to_die
-					- (curr_time - philo->last_eat_ts);
-
-	if (time_before_dying < time_to_wait)
-		return (time_before_dying * 1000);
-	return (time_to_wait * 1000);
 }
