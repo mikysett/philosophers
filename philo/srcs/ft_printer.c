@@ -9,7 +9,7 @@ void	ft_init_printer_mutex(t_data *data)
 		ft_exit_error(NULL, MUTEX_FAIL);
 }
 
-void	ft_print_philo_state_or_kill(t_philo *philo)
+void	ft_print_philo_state(t_philo *philo)
 {
 	static char	action_str[5][100] = {
 			"has taken a fork",

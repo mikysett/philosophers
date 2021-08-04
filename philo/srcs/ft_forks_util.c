@@ -11,17 +11,11 @@ bool	ft_take_forks(t_philo *philo,
 	{
 		philo->state = fork_taken;
 		if (pthread_mutex_lock(fork_right) != 0)
-		{
-			printf("philo id: %d\n", philo->id);
 			ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-		}
-		ft_print_philo_state_or_kill(philo);
+		ft_print_philo_state(philo);
 		if (pthread_mutex_lock(fork_left) != 0)
-		{
-			printf("fork left philo id: %d\n", philo->id);
 			ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-		}
-		ft_print_philo_state_or_kill(philo);
+		ft_print_philo_state(philo);
 		return (true);
 	}
 	return (false);
