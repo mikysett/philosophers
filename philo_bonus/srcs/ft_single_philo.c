@@ -5,7 +5,7 @@ static void	ft_try_eat(t_philo *philo);
 static void	ft_do_sleep(t_philo *philo, int curr_time);
 static void	ft_do_think(t_philo *philo);
 
-void	*ft_philo_thread(void *philo_void)
+void	*ft_single_philo(void *philo_void)
 {
 	t_philo	*philo;
 	int		curr_time;

@@ -14,10 +14,12 @@ typedef enum e_exit_code
 	WRONG_ARGUMENT_TYPE,
 	MEMORY_FAIL,
 	TIMEVAL_ERROR,
+	FORK_FAIL,
+	KILL_FAIL,
 	MUTEX_FAIL,
 	MUTEX_DESTROY_FAIL,
-	THREAD_CREATE_FAIL,
-	THREAD_JOIN_FAIL,
+	// THREAD_CREATE_FAIL,
+	// THREAD_JOIN_FAIL,
 	MUTEX_LOCK_FAIL,
 	MUTEX_UNLOCK_FAIL
 }			t_exit_code;
@@ -52,10 +54,6 @@ typedef struct s_philo
 	int				nb_meals;
 	int				last_eat_ts;
 	t_timings		timings;
-	pthread_mutex_t	*fork_right;
-	pthread_mutex_t	*fork_left;
-	bool			*is_fork_right_busy;
-	bool			*is_fork_left_busy;
 	pthread_mutex_t	*printer_mutex;
 }			t_philo;
 
@@ -65,7 +63,7 @@ typedef struct s_data
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	bool			*is_fork_busy;
-	pthread_t		*philo_threads;
+	pid_t			*philo_pids;
 	pthread_mutex_t	*printer_mutex;
 }			t_data;
 
