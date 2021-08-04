@@ -10,10 +10,11 @@ void	ft_catch_results(t_data *data)
 	{
 		waitpid(-1, &wstatus, 0);
 		if (WIFEXITED(wstatus)
-			&& WIFEXITSTATUS(wstatus) == EXIT_FAILURE)
+			&& WEXITSTATUS(wstatus) == EXIT_FAILURE)
 		{
-			if (kill(-1, SIGKILL) == -1)
-				ft_exit_error(data, KILL_FAIL);
+			printf("kill 'em all\n");
+			// if (kill(-1, SIGKILL) == -1)
+			// 	ft_exit_error(data, KILL_FAIL);
 		}
 		i++;
 	}

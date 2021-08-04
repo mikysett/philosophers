@@ -9,6 +9,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <sys/signal.h>
+# include <semaphore.h>
 # include <signal.h>
 
 # include <pthread.h>

@@ -24,18 +24,20 @@ static void	ft_print_err(t_exit_code exit_code)
 		printf("Error: Can't fork the process\n");
 	else if (exit_code == KILL_FAIL)
 		printf("Error: Can't kill the process\n");
-	else if (exit_code == MUTEX_FAIL)
-		printf("Error: Can't initialize forks with mutex\n");
-	else if (exit_code == MUTEX_DESTROY_FAIL)
-		printf("Error: Can't destroy forks with mutex\n");
-	// else if (exit_code == THREAD_CREATE_FAIL)
-	// 	printf("Error: Can't create the threads\n");
+	else if (exit_code == SEMAPHORE_FAIL)
+		printf("Error: Can't initialize forks with semaphore\n");
+	// else if (exit_code == MUTEX_DESTROY_FAIL)
+	// 	printf("Error: Can't destroy forks with mutex\n");
+	else if (exit_code == THREAD_CREATE_FAIL)
+		printf("Error: Can't create the thread\n");
+	else if (exit_code == THREAD_DETACH_FAIL)
+		printf("Error: Can't detach the thread\n");
 	// else if (exit_code == THREAD_JOIN_FAIL)
 	// 	printf("Error: Can't join the threads\n");
-	else if (exit_code == MUTEX_LOCK_FAIL)
-		printf("Error: Can't lock the mutex\n");
-	else if (exit_code == MUTEX_UNLOCK_FAIL)
-		printf("Error: Can't unlock the mutex\n");
+	else if (exit_code == SEM_LOCK_FAIL)
+		printf("Error: Can't lock the semaphore\n");
+	else if (exit_code == SEM_UNLOCK_FAIL)
+		printf("Error: Can't unlock the semaphore\n");
 	else
 		printf("Error: Unknown error\n");
 }

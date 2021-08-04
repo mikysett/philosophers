@@ -12,6 +12,9 @@ void	ft_start_philosophers(t_data *data)
 			ft_exit_error(data, FORK_FAIL);
 		else if (data->philo_pids[i] == 0)
 		{
+			// printf("process launched\n");
+			// printf("nb_free_forks pointer: %p\n", data->philo[i].nb_free_forks);
+			// printf("nb_free_forks value  : %d\n", *(data->philo[i].nb_free_forks));
 			ft_single_philo((void *)&data->philo[i]);
 			ft_free_data(data);
 			if (data->philo[i].state == dead)
