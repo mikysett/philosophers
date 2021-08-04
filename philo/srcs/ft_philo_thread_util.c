@@ -25,3 +25,12 @@ int	ft_max_time_before_dying_in_ms(t_philo *philo,
 		return (time_before_dying * 1000);
 	return (time_to_wait * 1000);
 }
+
+bool	ft_a_philo_died(bool set_death)
+{
+	static bool	a_philo_died = false;
+
+	if (set_death)
+		a_philo_died = true;
+	return (a_philo_died);
+}

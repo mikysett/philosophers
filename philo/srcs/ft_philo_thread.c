@@ -26,6 +26,8 @@ void	*ft_philo_thread(void *philo_void)
 		}
 		else if (philo->state == sleeping)
 			ft_do_think(philo);
+		if (ft_a_philo_died(NULL))
+			break ;
 	}
 	return (philo_void);
 }

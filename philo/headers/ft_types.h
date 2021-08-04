@@ -59,7 +59,7 @@ typedef struct s_philo
 	pthread_mutex_t	*printer_mutex;
 }			t_philo;
 
-typedef struct e_data
+typedef struct s_data
 {
 	int				nb_philo;
 	t_philo			*philo;
