@@ -52,11 +52,15 @@ typedef struct s_philo
 	int				nb_meals;
 	int				last_eat_ts;
 	t_timings		timings;
+
 	pthread_mutex_t	*fork_right;
 	pthread_mutex_t	*fork_left;
 	bool			*is_fork_right_busy;
 	bool			*is_fork_left_busy;
+
 	pthread_mutex_t	*printer_mutex;
+	pthread_mutex_t	*busy_forks_mutex;
+	pthread_mutex_t	*a_philo_died_mutex;
 }			t_philo;
 
 typedef struct s_data
@@ -66,7 +70,10 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	bool			*is_fork_busy;
 	pthread_t		*philo_threads;
+
 	pthread_mutex_t	*printer_mutex;
+	pthread_mutex_t	*busy_forks_mutex;
+	pthread_mutex_t	*a_philo_died_mutex;
 }			t_data;
 
 #endif

@@ -17,7 +17,7 @@ void	*ft_single_philo(void *philo_void)
 	philo = (t_philo *)philo_void;
 	while (philo->state != dead)
 	{
-		printf("-----------> p%d forks in hand: %d\n", philo->id, philo->forks_in_hand);
+		// printf("-----------> p%d forks in hand: %d\n", philo->id, philo->forks_in_hand);
 		curr_time = ft_delta_tv_in_ms(philo->timings.start_time, ft_get_tv());
 		if (ft_starved(philo, curr_time))
 			ft_do_dead(philo);
@@ -90,7 +90,7 @@ static void	ft_do_sleep(t_philo *philo, int curr_time)
 {
 	philo->state = sleeping;
 	ft_print_philo_state(philo);
-	printf("releasing some forks\n");
+	// printf("releasing some forks\n");
 	ft_release_forks(philo);
 	usleep(ft_max_time_before_dying_in_ms(philo,
 			curr_time, philo->timings.time_to_sleep));
