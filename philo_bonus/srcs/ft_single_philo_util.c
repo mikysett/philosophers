@@ -25,3 +25,19 @@ int	ft_max_time_before_dying_in_ms(t_philo *philo,
 		return (time_before_dying * 1000);
 	return (time_to_wait * 1000);
 }
+
+sem_t	*ft_init_read_forks_in_hand(t_philo *philo)
+{
+	sem_t	*read_forks_in_hand;
+	char	*sem_name;
+
+	sem_name = ft_itoa(philo->id);
+	if (!sem_name)
+		ft_exit_error(NULL, MEMORY_FAIL);
+	sem_unlink(sem_name);
+	read_forks_in_hand = sem_open(sem_name, O_CREAT, 0644, 1);
+	if (read_forks_in_hand == SEM_FAILED)
+		ft_exit_error(NULL, SEMAPHORE_FAIL);
+	free(sem_name);
+	return (read_forks_in_hand);
+}

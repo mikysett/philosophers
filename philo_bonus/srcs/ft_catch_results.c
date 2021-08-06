@@ -1,5 +1,7 @@
 #include "philosophers.h"
 
+static void	ft_kill_all_children(t_data *data);
+
 void	ft_catch_results(t_data *data)
 {
 	int	i;
@@ -11,11 +13,19 @@ void	ft_catch_results(t_data *data)
 		waitpid(-1, &wstatus, 0);
 		if (WIFEXITED(wstatus)
 			&& WEXITSTATUS(wstatus) == EXIT_FAILURE)
-		{
-			printf("kill 'em all\n");
-			// if (kill(-1, SIGKILL) == -1)
-			// 	ft_exit_error(data, KILL_FAIL);
-		}
+			ft_kill_all_children(data);
+		i++;
+	}
+}
+
+static void	ft_kill_all_children(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		kill(data->philo_pids[i], SIGKILL);
 		i++;
 	}
 }

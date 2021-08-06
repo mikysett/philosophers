@@ -28,7 +28,7 @@ DEPS	=	$(shell find $(HEADERS) -name *.h)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -pthread
+CFLAGS	=	-Wall -Wextra -Werror -pthread
 
 INCLUDES	= -I $(HEADERS)
 

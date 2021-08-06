@@ -6,11 +6,14 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <sys/signal.h>
-# include <semaphore.h>
 # include <signal.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <semaphore.h>
 
 # include <pthread.h>
 

@@ -10,6 +10,7 @@ void	ft_free_data(t_data *data)
 		free(data->is_fork_busy);
 		free(data->printer_mutex);
 		free(data->busy_forks_mutex);
+		free(data->a_philo_died_mutex);
 		free(data->philo_threads);
 		free(data->philo);
 	}

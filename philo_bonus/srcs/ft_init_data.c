@@ -4,6 +4,7 @@ static t_timings		ft_init_timings(int argc, char **argv);
 static int				ft_set_nb_times_to_eat(int argc, char **argv);
 static t_philo			*ft_init_philo(t_data *data, t_timings timings);
 static sem_t			*ft_init_forks(int nb_forks);
+static sem_t			*ft_init_printer(void);
 
 t_data	ft_init_data(int argc, char **argv)
 {
@@ -14,7 +15,7 @@ t_data	ft_init_data(int argc, char **argv)
 		ft_exit_error(NULL, WRONG_ARGUMENT_NB);
 	data.nb_philo = ft_save_number(argv[1]);
 	data.forks = ft_init_forks(data.nb_philo);
-	// ft_init_printer_mutex(&data);
+	data.printer = ft_init_printer();
 	timings = ft_init_timings(argc, argv);
 	data.philo = ft_init_philo(&data, timings);
 	data.philo_pids = ft_init_philo_pids(data.nb_philo);
@@ -25,12 +26,22 @@ static sem_t	*ft_init_forks(int nb_forks)
 {
 	sem_t	*forks;
 
-	if (sem_unlink("philo_forks") != 0)
-		perror("shit");
+	sem_unlink("philo_forks");
 	forks = sem_open("philo_forks", O_CREAT, 0644, nb_forks);
 	if (forks == SEM_FAILED)
 		ft_exit_error(NULL, SEMAPHORE_FAIL);
 	return (forks);
+}
+
+static sem_t	*ft_init_printer(void)
+{
+	sem_t	*printer;
+
+	sem_unlink("philo_printer");
+	printer = sem_open("philo_printer", O_CREAT, 0644, 1);
+	if (printer == SEM_FAILED)
+		ft_exit_error(NULL, SEMAPHORE_FAIL);
+	return (printer);
 }
 
 static t_timings	ft_init_timings(int argc, char **argv)
@@ -70,6 +81,7 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 		philo[i].last_eat_ts = 0;
 		philo[i].nb_meals = 0;
 		philo[i].forks = data->forks;
+		philo[i].printer = data->printer;
 		philo[i].forks_in_hand = 0;
 		i++;
 	}

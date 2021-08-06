@@ -16,12 +16,9 @@ typedef enum e_exit_code
 	TIMEVAL_ERROR,
 	FORK_FAIL,
 	KILL_FAIL,
-	// MUTEX_FAIL,
-	// MUTEX_DESTROY_FAIL,
 	SEMAPHORE_FAIL,
 	THREAD_CREATE_FAIL,
 	THREAD_DETACH_FAIL,
-	// THREAD_JOIN_FAIL,
 	SEM_LOCK_FAIL,
 	SEM_UNLOCK_FAIL
 }			t_exit_code;
@@ -56,8 +53,9 @@ typedef struct s_philo
 	int				nb_meals;
 	int				last_eat_ts;
 	t_timings		timings;
-	pthread_mutex_t	*printer_mutex;
 	sem_t			*forks;
+	sem_t			*printer;
+	sem_t			*read_forks_in_hand;
 	int				forks_in_hand;
 }			t_philo;
 
@@ -66,6 +64,7 @@ typedef struct s_data
 	int			nb_philo;
 	t_philo		*philo;
 	sem_t		*forks;
+	sem_t		*printer;
 	pid_t		*philo_pids;
 }			t_data;
 

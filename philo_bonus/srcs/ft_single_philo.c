@@ -9,37 +9,30 @@ static void ft_start_take_forks(pthread_t *take_forks, t_philo *philo);
 void	*ft_single_philo(void *philo_void)
 {
 	t_philo		*philo;
-	bool	trying_to_take_forks = false;
-	int		curr_time;
-
-	pthread_t	*take_forks = malloc(sizeof(pthread_t));
+	bool		trying_to_take_forks = false;
+	int			curr_time;
+	pthread_t	*take_forks;
 
 	philo = (t_philo *)philo_void;
+	take_forks = malloc(sizeof(pthread_t));
+	philo->read_forks_in_hand = ft_init_read_forks_in_hand(philo);
 	while (philo->state != dead)
 	{
-		// printf("-----------> p%d forks in hand: %d\n", philo->id, philo->forks_in_hand);
 		curr_time = ft_delta_tv_in_ms(philo->timings.start_time, ft_get_tv());
 		if (ft_starved(philo, curr_time))
 			ft_do_dead(philo);
 		else if (philo->state == thinking)
 		{
-			if (trying_to_take_forks)
-			{
-				// if (philo->forks_in_hand == 1)
-				// {
-				// 	if (sem_post(philo->forks) != 0)
-				// 		ft_exit_error(NULL, SEM_UNLOCK_FAIL);
-				// 	philo->forks_in_hand--;
-				// 	printf("releasing a fork to avoid deadlocks\n");
-				// }
-			}
-			else
+			if (trying_to_take_forks == false)
 			{
 				ft_start_take_forks(take_forks, philo);
 				trying_to_take_forks = true;
 			}
-			if (philo->forks_in_hand == 2)
+			if (ft_get_forks_in_hand(philo) >= 2)
 			{
+				philo->state = fork_taken;
+				ft_print_philo_state(philo);
+				ft_print_philo_state(philo);
 				ft_do_eat(philo);
 				trying_to_take_forks = false;
 			}
@@ -52,8 +45,6 @@ void	*ft_single_philo(void *philo_void)
 		}
 		else if (philo->state == sleeping)
 			ft_do_think(philo);
-		// if (ft_a_philo_died(NULL))
-		// 	break ;
 	}
 	free(take_forks);
 	return (philo_void);
@@ -61,12 +52,11 @@ void	*ft_single_philo(void *philo_void)
 
 static void	ft_start_take_forks(pthread_t *take_forks, t_philo *philo)
 {
-	// printf("start take forks\n");
 	if (!take_forks)
 		ft_exit_error(NULL, MEMORY_FAIL);
 	if (pthread_create(take_forks, NULL, ft_take_forks, (void *)philo) != 0)
 		ft_exit_error(NULL, THREAD_CREATE_FAIL);
-	if (pthread_join(*take_forks, NULL))
+	if (pthread_detach(*take_forks))
 		ft_exit_error(NULL, THREAD_DETACH_FAIL);
 }
 
@@ -90,7 +80,6 @@ static void	ft_do_sleep(t_philo *philo, int curr_time)
 {
 	philo->state = sleeping;
 	ft_print_philo_state(philo);
-	// printf("releasing some forks\n");
 	ft_release_forks(philo);
 	usleep(ft_max_time_before_dying_in_ms(philo,
 			curr_time, philo->timings.time_to_sleep));

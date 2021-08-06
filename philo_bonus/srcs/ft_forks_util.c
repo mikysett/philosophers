@@ -1,58 +1,20 @@
 #include "philosophers.h"
 
-static bool	ft_set_busy_forks(int *nb_free_forks);
-
 void	*ft_take_forks(void *philo_void)
 {
 	t_philo	*philo;
+	int		taken_forks;
 
-	// printf("take forks pthread\n");
 	philo = (t_philo *)philo_void;
-	while (1)
+	taken_forks = 0;
+	while (taken_forks != 2)
 	{
-		// printf("p%d try to take a fork\n", philo->id);
 		if (sem_wait(philo->forks) != 0)
 			ft_exit_error(NULL, SEM_LOCK_FAIL);
-		philo->forks_in_hand++;
-		// printf("p%d taking a fork\n", philo->id);
-		// printf("IN TAKE FORKS: p%d forks in hand: %d\n", philo->id, philo->forks_in_hand);
-		if (philo->forks_in_hand == 2)
-			break ;
+		taken_forks++;
 	}
-	philo->state = fork_taken;
-	ft_print_philo_state(philo);
-	ft_print_philo_state(philo);
+	ft_set_forks_in_hand(philo, taken_forks);
 	return (NULL);
-}
-
-// bool	ft_take_forks(t_philo *philo)
-// {
-// 	// printf("p%d set busy fork fork\n", philo->id);
-// 	if (ft_set_busy_forks(philo->nb_free_forks))
-// 	{
-// 		// printf("p%d take forks\n", philo->id);
-// 		// printf("nb_free_forks pointer: %p\n", philo->nb_free_forks);
-// 		// printf("nb_free_forks value  : %d\n\n", *(philo->nb_free_forks));
-// 		philo->state = fork_taken;
-// 		if (sem_wait(philo->forks) != 0)
-// 			ft_exit_error(NULL, SEM_LOCK_FAIL);
-// 		ft_print_philo_state(philo);
-// 		if (sem_wait(philo->forks) != 0)
-// 			ft_exit_error(NULL, SEM_LOCK_FAIL);
-// 		ft_print_philo_state(philo);
-// 		return (true);
-// 	}
-// 	return (false);
-// }
-
-static bool	ft_set_busy_forks(int *nb_free_forks)
-{
-	// if (*nb_free_forks >= 2)
-	// {
-	// 	*nb_free_forks -= 2;
-	// 	return (true);
-	// }
-	return (true);
 }
 
 void	ft_release_forks(t_philo *philo)
@@ -61,5 +23,25 @@ void	ft_release_forks(t_philo *philo)
 		ft_exit_error(NULL, SEM_UNLOCK_FAIL);
 	if (sem_post(philo->forks) != 0)
 		ft_exit_error(NULL, SEM_UNLOCK_FAIL);
-	philo->forks_in_hand = 0;
+	ft_set_forks_in_hand(philo, 0);
+}
+
+int	ft_get_forks_in_hand(t_philo *philo)
+{
+	int	forks_in_hand;
+	if (sem_wait(philo->read_forks_in_hand) != 0)
+		ft_exit_error(NULL, SEM_LOCK_FAIL);
+	forks_in_hand = philo->forks_in_hand;
+	if (sem_post(philo->read_forks_in_hand) != 0)
+		ft_exit_error(NULL, SEM_UNLOCK_FAIL);
+	return (forks_in_hand);
+}
+
+void	ft_set_forks_in_hand(t_philo *philo, int new_forks_in_hand)
+{
+	if (sem_wait(philo->read_forks_in_hand) != 0)
+		ft_exit_error(NULL, SEM_LOCK_FAIL);
+	philo->forks_in_hand = new_forks_in_hand;
+	if (sem_post(philo->read_forks_in_hand) != 0)
+		ft_exit_error(NULL, SEM_UNLOCK_FAIL);
 }
