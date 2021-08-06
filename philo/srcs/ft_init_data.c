@@ -13,13 +13,12 @@ t_data	ft_init_data(int argc, char **argv)
 		ft_exit_error(NULL, WRONG_ARGUMENT_NB);
 	data.nb_philo = ft_save_number(argv[1]);
 	data.forks = ft_init_forks(data.nb_philo);
-	data.busy_forks_mutex = ft_init_busy_forks_mutex();
 	data.a_philo_died_mutex = ft_init_a_philo_died_mutex();
 	data.is_fork_busy = ft_init_is_fork_busy(data.nb_philo);
 	ft_init_printer_mutex(&data);
 	timings = ft_init_timings(argc, argv);
 	data.philo = ft_init_philo(&data, timings);
-	data.philo_threads = ft_init_philo_threads(data.nb_philo);
+	data.philo_threads = ft_malloc_or_exit(sizeof(pthread_t) * data.nb_philo);
 	return (data);
 }
 
@@ -49,9 +48,7 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 	int		i;
 
 	i = 0;
-	philo = malloc(sizeof(t_philo) * data->nb_philo);
-	if (!philo)
-		ft_exit_error(NULL, MEMORY_FAIL);
+	philo = ft_malloc_or_exit(sizeof(t_philo) * data->nb_philo);
 	while (i < data->nb_philo)
 	{
 		philo[i].timings = timings;
@@ -61,7 +58,6 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 		philo[i].nb_meals = 0;
 		ft_set_forks_in_philo(philo, data, i);
 		philo[i].printer_mutex = data->printer_mutex;
-		philo[i].busy_forks_mutex = data->busy_forks_mutex;
 		philo[i].a_philo_died_mutex = data->a_philo_died_mutex;
 		i++;
 	}

@@ -9,7 +9,6 @@ void	ft_free_data(t_data *data)
 		ft_free_forks(data, data->is_fork_busy);
 		free(data->is_fork_busy);
 		free(data->printer_mutex);
-		free(data->busy_forks_mutex);
 		free(data->a_philo_died_mutex);
 		free(data->philo_threads);
 		free(data->philo);
@@ -33,25 +32,13 @@ static void	ft_free_forks(t_data *data, bool *is_fork_busy)
 	free(data->forks);
 }
 
-pthread_t	*ft_init_philo_threads(int nb_philo)
-{
-	pthread_t	*philo_threads;
-
-	philo_threads = malloc(sizeof(pthread_t) * nb_philo);
-	if (!philo_threads)
-		ft_exit_error(NULL, MEMORY_FAIL);
-	return (philo_threads);
-}
-
 bool	*ft_init_is_fork_busy(int nb_philo)
 {
 	int		i;
 	bool	*is_fork_busy;
 
 	i = 0;
-	is_fork_busy = malloc(sizeof(bool) * nb_philo);
-	if (!is_fork_busy)
-		ft_exit_error(NULL, MEMORY_FAIL);
+	is_fork_busy = ft_malloc_or_exit(sizeof(bool) * nb_philo);
 	if (nb_philo == 1)
 		is_fork_busy[0] = true;
 	else
@@ -63,4 +50,14 @@ bool	*ft_init_is_fork_busy(int nb_philo)
 		}
 	}
 	return (is_fork_busy);
+}
+
+void	*ft_malloc_or_exit(int size)
+{
+	void	*malloc_result;
+
+	malloc_result = malloc(size);
+	if (!malloc_result)
+		ft_exit_error(NULL, MEMORY_FAIL);
+	return (malloc_result);
 }

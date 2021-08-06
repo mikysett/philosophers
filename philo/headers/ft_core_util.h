@@ -9,7 +9,6 @@ void		ft_exit_error(t_data *data, t_exit_code exit_code);
 int			previous(int i, int size);
 
 void		ft_free_data(t_data *data);
-pthread_t	*ft_init_philo_threads(int nb_philo);
 bool		*ft_init_is_fork_busy(int nb_philo);
-
+void		*ft_malloc_or_exit(int size);
 #endif

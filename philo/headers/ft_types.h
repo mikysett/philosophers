@@ -59,7 +59,6 @@ typedef struct s_philo
 	bool			*is_fork_left_busy;
 
 	pthread_mutex_t	*printer_mutex;
-	pthread_mutex_t	*busy_forks_mutex;
 	pthread_mutex_t	*a_philo_died_mutex;
 }			t_philo;
 
@@ -72,7 +71,6 @@ typedef struct s_data
 	pthread_t		*philo_threads;
 
 	pthread_mutex_t	*printer_mutex;
-	pthread_mutex_t	*busy_forks_mutex;
 	pthread_mutex_t	*a_philo_died_mutex;
 }			t_data;
 
