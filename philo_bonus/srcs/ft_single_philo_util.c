@@ -15,6 +15,16 @@ bool	ft_starved(t_philo *philo, int curr_time)
 	return (false);
 }
 
+void	ft_do_eat(t_philo *philo)
+{
+	philo->state = eating;
+	ft_print_philo_state(philo);
+	philo->last_eat_ts
+		= ft_delta_tv_in_ms(philo->timings.start_time, ft_get_tv());
+	usleep(philo->timings.time_to_eat * 1000);
+	philo->nb_meals++;
+}
+
 int	ft_max_time_before_dying_in_ms(t_philo *philo,
 		int curr_time, int time_to_wait)
 {

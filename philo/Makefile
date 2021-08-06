@@ -16,7 +16,23 @@ DIR_S	=	srcs
 DIR_O	=	obj
 
 # Using wildcards: $(shell find $(DIR_S) -name *.c)
-SRCS		:= $(shell find $(DIR_S) -name *.c)
+SRCS		:=	srcs/core_util/ft_atoi.c \
+				srcs/core_util/ft_exit_error.c \
+				srcs/core_util/ft_itoa.c \
+				srcs/core_util/ft_memory_util.c \
+				srcs/core_util/ft_previous.c \
+				srcs/core_util/ft_save_number.c \
+				srcs/core_util/ft_strlen.c \
+				srcs/ft_catch_results.c \
+				srcs/ft_forks_util.c \
+				srcs/ft_init_data.c \
+				srcs/ft_init_data_util.c \
+				srcs/ft_philo_thread.c \
+				srcs/ft_philo_thread_util.c \
+				srcs/ft_printer.c \
+				srcs/ft_start_threads.c \
+				srcs/ft_time_util.c \
+				srcs/main.c
 
 OBJS		:= $(SRCS:%.c=$(DIR_O)/%.o)
 
@@ -24,7 +40,16 @@ SUB_DIR_O := $(shell find $(DIR_S) -type d)
 SUB_DIR_O := $(SUB_DIR_O:%=$(DIR_O)/%)
 
 # Using wildcards: $(shell find $(HEADERS) -name *.h)
-DEPS	=	$(shell find $(HEADERS) -name *.h)
+DEPS	=	headers/ft_catch_results.h \
+			headers/ft_core_util.h \
+			headers/ft_forks_util.h \
+			headers/ft_init_data.h \
+			headers/ft_philo_thread.h \
+			headers/ft_printer.h \
+			headers/ft_start_threads.h \
+			headers/ft_time_util.h \
+			headers/ft_types.h \
+			headers/philosophers.h
 
 CC		=	gcc
 

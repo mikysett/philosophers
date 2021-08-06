@@ -8,6 +8,6 @@ size_t		ft_strlen(const char *s);
 void		ft_exit_error(t_data *data, t_exit_code exit_code);
 
 void		ft_free_data(t_data *data);
-pid_t		*ft_init_philo_pids(int nb_philo);
+void		*ft_malloc_or_exit(int size);
 
 #endif

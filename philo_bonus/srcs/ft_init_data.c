@@ -3,8 +3,6 @@
 static t_timings		ft_init_timings(int argc, char **argv);
 static int				ft_set_nb_times_to_eat(int argc, char **argv);
 static t_philo			*ft_init_philo(t_data *data, t_timings timings);
-static sem_t			*ft_init_forks(int nb_forks);
-static sem_t			*ft_init_printer(void);
 
 t_data	ft_init_data(int argc, char **argv)
 {
@@ -18,30 +16,8 @@ t_data	ft_init_data(int argc, char **argv)
 	data.printer = ft_init_printer();
 	timings = ft_init_timings(argc, argv);
 	data.philo = ft_init_philo(&data, timings);
-	data.philo_pids = ft_init_philo_pids(data.nb_philo);
+	data.philo_pids = ft_malloc_or_exit(sizeof(pid_t) * data.nb_philo);
 	return (data);
-}
-
-static sem_t	*ft_init_forks(int nb_forks)
-{
-	sem_t	*forks;
-
-	sem_unlink("philo_forks");
-	forks = sem_open("philo_forks", O_CREAT, 0644, nb_forks);
-	if (forks == SEM_FAILED)
-		ft_exit_error(NULL, SEMAPHORE_FAIL);
-	return (forks);
-}
-
-static sem_t	*ft_init_printer(void)
-{
-	sem_t	*printer;
-
-	sem_unlink("philo_printer");
-	printer = sem_open("philo_printer", O_CREAT, 0644, 1);
-	if (printer == SEM_FAILED)
-		ft_exit_error(NULL, SEMAPHORE_FAIL);
-	return (printer);
 }
 
 static t_timings	ft_init_timings(int argc, char **argv)
@@ -70,9 +46,7 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 	int		i;
 
 	i = 0;
-	philo = malloc(sizeof(t_philo) * data->nb_philo);
-	if (!philo)
-		ft_exit_error(NULL, MEMORY_FAIL);
+	philo = ft_malloc_or_exit(sizeof(t_philo) * data->nb_philo);
 	while (i < data->nb_philo)
 	{
 		philo[i].timings = timings;

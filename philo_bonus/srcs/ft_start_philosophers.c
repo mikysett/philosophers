@@ -3,10 +3,9 @@
 void	ft_start_philosophers(t_data *data)
 {
 	int	i;
-	int	sgl_philo_return_status;
+	int	sgl_philo_status;
 
 	i = 0;
-
 	while (i < data->nb_philo)
 	{
 		data->philo_pids[i] = fork();
@@ -16,11 +15,11 @@ void	ft_start_philosophers(t_data *data)
 		{
 			ft_single_philo((void *)&data->philo[i]);
 			if (data->philo[i].state == dead)
-				sgl_philo_return_status = EXIT_FAILURE;
+				sgl_philo_status = EXIT_FAILURE;
 			else
-				sgl_philo_return_status = EXIT_SUCCESS;
+				sgl_philo_status = EXIT_SUCCESS;
 			ft_free_data(data);
-			exit(sgl_philo_return_status);
+			exit(sgl_philo_status);
 		}
 		i++;
 	}

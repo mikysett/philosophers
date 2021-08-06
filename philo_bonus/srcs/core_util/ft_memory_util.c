@@ -9,12 +9,12 @@ void	ft_free_data(t_data *data)
 	}
 }
 
-pid_t	*ft_init_philo_pids(int nb_philo)
+void	*ft_malloc_or_exit(int size)
 {
-	pid_t	*philo_pids;
+	void	*malloc_result;
 
-	philo_pids = malloc(sizeof(pid_t) * nb_philo);
-	if (!philo_pids)
+	malloc_result = malloc(size);
+	if (!malloc_result)
 		ft_exit_error(NULL, MEMORY_FAIL);
-	return (philo_pids);
+	return (malloc_result);
 }

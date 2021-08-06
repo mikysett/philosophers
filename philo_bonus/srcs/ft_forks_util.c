@@ -29,6 +29,7 @@ void	ft_release_forks(t_philo *philo)
 int	ft_get_forks_in_hand(t_philo *philo)
 {
 	int	forks_in_hand;
+
 	if (sem_wait(philo->read_forks_in_hand) != 0)
 		ft_exit_error(NULL, SEM_LOCK_FAIL);
 	forks_in_hand = philo->forks_in_hand;
