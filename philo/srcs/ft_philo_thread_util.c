@@ -25,18 +25,3 @@ int	ft_max_time_before_dying_in_ms(t_philo *philo,
 		return (time_before_dying * 1000);
 	return (time_to_wait * 1000);
 }
-
-bool	ft_a_philo_died(bool set_death, pthread_mutex_t *a_philo_died_mutex)
-{
-	static bool	a_philo_died = false;
-	bool		is_one_death;
-
-	if (pthread_mutex_lock(a_philo_died_mutex) != 0)
-		ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-	if (set_death)
-		a_philo_died = true;
-	is_one_death = a_philo_died;
-	if (pthread_mutex_unlock(a_philo_died_mutex) != 0)
-		ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
-	return (is_one_death);
-}

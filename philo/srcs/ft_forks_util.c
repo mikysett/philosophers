@@ -1,80 +1,52 @@
 #include "philosophers.h"
 
-static bool	ft_set_busy_forks(t_philo *philo,
-				pthread_mutex_t *fork_right, pthread_mutex_t *fork_left);
+static bool	ft_set_busy_forks(t_philo *philo);
+static bool	ft_take_single_fork(pthread_mutex_t *fork, bool *is_fork_busy);
 
 bool	ft_take_forks(t_philo *philo)
 {
-	if (ft_set_busy_forks(philo, philo->fork_right, philo->fork_left))
+	if (ft_set_busy_forks(philo))
 	{
 		philo->state = fork_taken;
-		ft_print_philo_state(philo);
-		ft_print_philo_state(philo);
+		ft_print_state_or_kill(philo);
+		ft_print_state_or_kill(philo);
 		return (true);
 	}
 	return (false);
 }
 
-static bool	ft_set_busy_forks(t_philo *philo,
-				pthread_mutex_t *fork_right, pthread_mutex_t *fork_left)
+static bool	ft_set_busy_forks(t_philo *philo)
 {
-	bool	right_fork_taken;
-	bool	left_fork_taken;
-
-	right_fork_taken = false;
-	left_fork_taken = false;
-	if (pthread_mutex_lock(fork_right) != 0)
-		ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-	if (*(philo->is_fork_right_busy) == false)
+	if (ft_take_single_fork(philo->fork_right, philo->is_fork_right_busy))
 	{
-		*(philo->is_fork_right_busy) = true;
-		right_fork_taken = true;
-	}
-	if (pthread_mutex_unlock(fork_right) != 0)
-		ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
-
-	if (right_fork_taken)
-	{
-		if (pthread_mutex_lock(fork_left) != 0)
-			ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-		if (*(philo->is_fork_left_busy) == false)
-		{
-			*(philo->is_fork_left_busy) = true;
-			left_fork_taken = true;
-		}
-		if (pthread_mutex_unlock(fork_left) != 0)
-			ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
+		if (ft_take_single_fork(philo->fork_left, philo->is_fork_left_busy))
+			return (true);
+		else
+			ft_release_fork(philo->fork_right, philo->is_fork_right_busy);
+		return (false);
 	}
 	else
 		return (false);
+}
 
-	if (right_fork_taken && !left_fork_taken)
+static bool	ft_take_single_fork(pthread_mutex_t *fork, bool *is_fork_busy)
+{
+	bool	fork_taken;
+
+	fork_taken = false;
+	ft_lock_mutex(fork);
+	if (*(is_fork_busy) == false)
 	{
-		ft_release_fork(philo->fork_right, philo->is_fork_right_busy);
-		return (false);
+		*(is_fork_busy) = true;
+		fork_taken = true;
 	}
-	return (true);
+	ft_unlock_mutex(fork);
+	return (fork_taken);
 }
 
 void	ft_release_fork(pthread_mutex_t *fork, bool *is_fork_busy)
 {
-	if (pthread_mutex_lock(fork) != 0)
-		ft_exit_error(NULL, MUTEX_LOCK_FAIL);
+	ft_lock_mutex(fork);
 	*is_fork_busy = false;
-	if (pthread_mutex_unlock(fork) != 0)
-		ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
+	ft_unlock_mutex(fork);
 }
-
-// void	ft_release_forks(t_philo *philo)
-// {
-// 	if (pthread_mutex_lock(philo->fork_right) != 0)
-// 		ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-// 	if (pthread_mutex_lock(philo->fork_left) != 0)
-// 		ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-// 	*(philo->is_fork_right_busy) = false;
-// 	*(philo->is_fork_left_busy) = false;
-// 	if (pthread_mutex_unlock(philo->fork_right) != 0)
-// 		ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
-// 	if (pthread_mutex_unlock(philo->fork_left) != 0)
-// 		ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
-// }

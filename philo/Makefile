@@ -23,6 +23,7 @@ SRCS		:=	srcs/core_util/ft_atoi.c \
 				srcs/core_util/ft_previous.c \
 				srcs/core_util/ft_save_number.c \
 				srcs/core_util/ft_strlen.c \
+				srcs/core_util/ft_mutex_util.c \
 				srcs/ft_catch_results.c \
 				srcs/ft_forks_util.c \
 				srcs/ft_init_data.c \
@@ -53,7 +54,7 @@ DEPS	=	headers/ft_catch_results.h \
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -pthread
+CFLAGS	=	-Wall -Wextra -Werror -pthread -fsanitize=thread
 
 INCLUDES	= -I $(HEADERS)
 

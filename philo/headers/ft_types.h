@@ -5,7 +5,7 @@
 
 # define EAT_FOREVER		-1
 # define ONE_SEC_IN_USEC	1000000
-# define MIN_THINK_TIME		500
+# define MIN_THINK_TIME		100
 
 typedef enum e_exit_code
 {
@@ -34,7 +34,7 @@ typedef struct s_timings
 }			t_timings;
 
 /* Philo states must be in this order so they match the  string array in */
-/* ft_print_philo_state() */
+/* ft_print_state_or_kill() */
 
 typedef enum e_philo_state
 {
@@ -59,7 +59,6 @@ typedef struct s_philo
 	bool			*is_fork_left_busy;
 
 	pthread_mutex_t	*printer_mutex;
-	pthread_mutex_t	*a_philo_died_mutex;
 }			t_philo;
 
 typedef struct s_data
@@ -71,7 +70,6 @@ typedef struct s_data
 	pthread_t		*philo_threads;
 
 	pthread_mutex_t	*printer_mutex;
-	pthread_mutex_t	*a_philo_died_mutex;
 }			t_data;
 
 #endif

@@ -11,4 +11,10 @@ int			previous(int i, int size);
 void		ft_free_data(t_data *data);
 bool		*ft_init_is_fork_busy(int nb_philo);
 void		*ft_malloc_or_exit(int size);
+
+void		ft_init_mutex(pthread_mutex_t *mutex);
+void		ft_lock_mutex(pthread_mutex_t *mutex);
+void		ft_unlock_mutex(pthread_mutex_t *mutex);
+void		ft_destroy_mutex(pthread_mutex_t *mutex);
+
 #endif

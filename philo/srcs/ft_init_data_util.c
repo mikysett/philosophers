@@ -9,21 +9,10 @@ pthread_mutex_t	*ft_init_forks(int nb_forks)
 	forks = ft_malloc_or_exit(sizeof(pthread_mutex_t) * nb_forks);
 	while (i < nb_forks)
 	{
-		if (pthread_mutex_init(forks + i, NULL) != 0)
-			ft_exit_error(NULL, MUTEX_FAIL);
+		ft_init_mutex(forks + i);
 		i++;
 	}
 	return (forks);
-}
-
-pthread_mutex_t	*ft_init_a_philo_died_mutex(void)
-{
-	pthread_mutex_t	*a_philo_died_mutex;
-
-	a_philo_died_mutex = ft_malloc_or_exit(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(a_philo_died_mutex, NULL) != 0)
-		ft_exit_error(NULL, MUTEX_FAIL);
-	return (a_philo_died_mutex);
 }
 
 void	ft_set_forks_in_philo(t_philo *philo, t_data *data, int i)

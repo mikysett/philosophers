@@ -13,7 +13,6 @@ t_data	ft_init_data(int argc, char **argv)
 		ft_exit_error(NULL, WRONG_ARGUMENT_NB);
 	data.nb_philo = ft_save_number(argv[1]);
 	data.forks = ft_init_forks(data.nb_philo);
-	data.a_philo_died_mutex = ft_init_a_philo_died_mutex();
 	data.is_fork_busy = ft_init_is_fork_busy(data.nb_philo);
 	ft_init_printer_mutex(&data);
 	timings = ft_init_timings(argc, argv);
@@ -58,7 +57,6 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 		philo[i].nb_meals = 0;
 		ft_set_forks_in_philo(philo, data, i);
 		philo[i].printer_mutex = data->printer_mutex;
-		philo[i].a_philo_died_mutex = data->a_philo_died_mutex;
 		i++;
 	}
 	return (philo);

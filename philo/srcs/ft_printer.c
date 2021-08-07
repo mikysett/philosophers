@@ -5,11 +5,10 @@ void	ft_init_printer_mutex(t_data *data)
 	data->printer_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!data->printer_mutex)
 		ft_exit_error(NULL, MEMORY_FAIL);
-	if (pthread_mutex_init(data->printer_mutex, NULL) != 0)
-		ft_exit_error(NULL, MUTEX_FAIL);
+	ft_init_mutex(data->printer_mutex);
 }
 
-void	ft_print_philo_state(t_philo *philo)
+void	ft_print_state_or_kill(t_philo *philo)
 {
 	static char	action_str[5][100] = {
 			"has taken a fork",
@@ -18,16 +17,17 @@ void	ft_print_philo_state(t_philo *philo)
 			"is thinking",
 			"died"
 		};
+	static bool	a_philo_died = false;
 
-	if (pthread_mutex_lock(philo->printer_mutex) != 0)
-		ft_exit_error(NULL, MUTEX_LOCK_FAIL);
-	if (!ft_a_philo_died(NULL, philo->a_philo_died_mutex))
+	ft_lock_mutex(philo->printer_mutex);
+	if (a_philo_died == false)
 		printf("%.5d %d %s\n",
 			ft_delta_tv_in_ms(philo->timings.start_time, ft_get_tv()),
 			philo->id,
 			action_str[philo->state]);
+	else
+		philo->state = dead;
 	if (philo->state == dead)
-		ft_a_philo_died(true, philo->a_philo_died_mutex);
-	if (pthread_mutex_unlock(philo->printer_mutex) != 0)
-		ft_exit_error(NULL, MUTEX_UNLOCK_FAIL);
+		a_philo_died = true;
+	ft_unlock_mutex(philo->printer_mutex);
 }

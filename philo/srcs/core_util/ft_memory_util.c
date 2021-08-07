@@ -8,8 +8,8 @@ void	ft_free_data(t_data *data)
 	{
 		ft_free_forks(data, data->is_fork_busy);
 		free(data->is_fork_busy);
+		ft_destroy_mutex(data->printer_mutex);
 		free(data->printer_mutex);
-		free(data->a_philo_died_mutex);
 		free(data->philo_threads);
 		free(data->philo);
 	}
@@ -23,10 +23,7 @@ static void	ft_free_forks(t_data *data, bool *is_fork_busy)
 	while (i < data->nb_philo)
 	{
 		if (is_fork_busy[i] == false)
-		{
-			if (pthread_mutex_destroy(&data->forks[i]) != 0)
-				ft_exit_error(NULL, MUTEX_DESTROY_FAIL);
-		}
+			ft_destroy_mutex(&data->forks[i]);
 		i++;
 	}
 	free(data->forks);
