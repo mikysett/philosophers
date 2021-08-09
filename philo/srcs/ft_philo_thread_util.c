@@ -8,20 +8,20 @@ bool	ft_eaten_enough(t_philo *philo)
 	return (false);
 }
 
-bool	ft_starved(t_philo *philo, int curr_time)
+bool	ft_starved(t_philo *philo)
 {
-	if (curr_time - philo->last_eat_ts >= philo->timings.time_to_die)
+	if (ft_delta_tv_in_us(philo->last_eat_tv, ft_get_tv())
+		>= philo->timings.time_to_die_us)
 		return (true);
 	return (false);
 }
 
-int	ft_max_time_before_dying_in_ms(t_philo *philo,
-		int curr_time, int time_to_wait)
+int	ft_max_time_before_dying_in_us(t_philo *philo, int time_to_wait_in_us)
 {
-	const int	time_before_dying = philo->timings.time_to_die
-					- (curr_time - philo->last_eat_ts);
+	const long long	time_before_dying_in_us = philo->timings.time_to_die_us
+					- ft_delta_tv_in_us(philo->last_eat_tv, ft_get_tv());
 
-	if (time_before_dying < time_to_wait)
-		return (time_before_dying * 1000);
-	return (time_to_wait * 1000);
+	if (time_before_dying_in_us < time_to_wait_in_us)
+		return (time_before_dying_in_us);
+	return (time_to_wait_in_us);
 }

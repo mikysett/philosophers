@@ -9,17 +9,15 @@ t_timeval	ft_get_tv(void)
 	return (time);
 }
 
-int	ft_delta_tv_in_ms(t_timeval old_tv, t_timeval new_tv)
+long long	ft_delta_tv_in_us(t_timeval old_tv, t_timeval new_tv)
 {
-	long int	delta_tv_sec;
-	long int	delta_tv_usec;
+	return (((new_tv.tv_sec - old_tv.tv_sec) * ONE_SEC_IN_USEC)
+		+ new_tv.tv_usec - old_tv.tv_usec);
+}
 
-	delta_tv_sec = new_tv.tv_sec - old_tv.tv_sec;
-	delta_tv_usec = new_tv.tv_usec - old_tv.tv_usec;
-	if (delta_tv_usec < 0)
-	{
-		delta_tv_sec--;
-		delta_tv_usec += ONE_SEC_IN_USEC;
-	}
-	return ((delta_tv_sec * 1000) + (delta_tv_usec / 1000));
+void	ft_sleep(t_timeval start_time, int time_to_sleep_in_us)
+{
+	while (ft_delta_tv_in_us(start_time, ft_get_tv())
+		<= time_to_sleep_in_us)
+		continue ;
 }

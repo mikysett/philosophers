@@ -11,10 +11,10 @@ t_data	ft_init_data(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 		ft_exit_error(NULL, WRONG_ARGUMENT_NB);
+	data.forks_mutex = ft_init_forks_mutex();
+	data.printer_mutex = ft_init_printer_mutex();
 	data.nb_philo = ft_save_number(argv[1]);
-	data.forks = ft_init_forks(data.nb_philo);
 	data.is_fork_busy = ft_init_is_fork_busy(data.nb_philo);
-	ft_init_printer_mutex(&data);
 	timings = ft_init_timings(argc, argv);
 	data.philo = ft_init_philo(&data, timings);
 	data.philo_threads = ft_malloc_or_exit(sizeof(pthread_t) * data.nb_philo);
@@ -25,11 +25,11 @@ static t_timings	ft_init_timings(int argc, char **argv)
 {
 	t_timings	timings;
 
-	timings.start_time = ft_get_tv();
-	timings.time_to_die = ft_save_number(argv[2]);
-	timings.time_to_eat = ft_save_number(argv[3]);
-	timings.time_to_sleep = ft_save_number(argv[4]);
+	timings.time_to_die_us = ft_save_number(argv[2]) * 1000;
+	timings.time_to_eat_in_us = ft_save_number(argv[3]) * 1000;
+	timings.time_to_sleep_in_us = ft_save_number(argv[4]) * 1000;
 	timings.nb_times_to_eat = ft_set_nb_times_to_eat(argc, argv);
+	timings.start_time = ft_get_tv();
 	return (timings);
 }
 
@@ -53,7 +53,7 @@ static t_philo	*ft_init_philo(t_data *data, t_timings timings)
 		philo[i].timings = timings;
 		philo[i].id = i + 1;
 		philo[i].state = thinking;
-		philo[i].last_eat_ts = 0;
+		philo[i].last_eat_tv = philo->timings.start_time;
 		philo[i].nb_meals = 0;
 		ft_set_forks_in_philo(philo, data, i);
 		philo[i].printer_mutex = data->printer_mutex;

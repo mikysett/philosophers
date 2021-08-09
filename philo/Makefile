@@ -54,7 +54,7 @@ DEPS	=	headers/ft_catch_results.h \
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS	=	-Wall -Wextra -Werror -pthread
 
 INCLUDES	= -I $(HEADERS)
 

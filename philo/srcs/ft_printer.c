@@ -1,11 +1,14 @@
 #include "philosophers.h"
 
-void	ft_init_printer_mutex(t_data *data)
+pthread_mutex_t	*ft_init_printer_mutex(void)
 {
-	data->printer_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!data->printer_mutex)
+	pthread_mutex_t	*printer_mutex;
+
+	printer_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!printer_mutex)
 		ft_exit_error(NULL, MEMORY_FAIL);
-	ft_init_mutex(data->printer_mutex);
+	ft_init_mutex(printer_mutex);
+	return (printer_mutex);
 }
 
 void	ft_print_state_or_kill(t_philo *philo)
@@ -21,13 +24,13 @@ void	ft_print_state_or_kill(t_philo *philo)
 
 	ft_lock_mutex(philo->printer_mutex);
 	if (a_philo_died == false)
-		printf("%.5d %d %s\n",
-			ft_delta_tv_in_ms(philo->timings.start_time, ft_get_tv()),
+		printf("%lld %d %s\n",
+			ft_delta_tv_in_us(philo->timings.start_time, ft_get_tv()) / 1000,
 			philo->id,
 			action_str[philo->state]);
-	else
-		philo->state = dead;
 	if (philo->state == dead)
 		a_philo_died = true;
+	if (a_philo_died)
+		philo->state = dead;
 	ft_unlock_mutex(philo->printer_mutex);
 }

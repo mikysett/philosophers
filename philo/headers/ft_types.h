@@ -27,9 +27,9 @@ typedef struct timeval	t_timeval;
 typedef struct s_timings
 {
 	t_timeval	start_time;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
+	long		time_to_die_us;
+	long		time_to_eat_in_us;
+	long		time_to_sleep_in_us;
 	int			nb_times_to_eat;
 }			t_timings;
 
@@ -50,11 +50,10 @@ typedef struct s_philo
 	int				id;
 	t_philo_state	state;
 	int				nb_meals;
-	int				last_eat_ts;
+	t_timeval		last_eat_tv;
 	t_timings		timings;
 
-	pthread_mutex_t	*fork_right;
-	pthread_mutex_t	*fork_left;
+	pthread_mutex_t	*forks_mutex;
 	bool			*is_fork_right_busy;
 	bool			*is_fork_left_busy;
 
@@ -65,10 +64,10 @@ typedef struct s_data
 {
 	int				nb_philo;
 	t_philo			*philo;
-	pthread_mutex_t	*forks;
 	bool			*is_fork_busy;
 	pthread_t		*philo_threads;
 
+	pthread_mutex_t	*forks_mutex;
 	pthread_mutex_t	*printer_mutex;
 }			t_data;
 
