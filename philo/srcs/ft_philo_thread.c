@@ -47,8 +47,10 @@ static void	ft_do_sleep(t_philo *philo)
 {
 	philo->state = sleeping;
 	ft_print_state_or_kill(philo);
-	ft_release_forks(philo);
-	ft_sleep(ft_get_tv(), ft_max_time_before_dying_in_us(philo,
+	ft_release_fork(philo->fork_right, philo->is_fork_right_busy);
+	ft_release_fork(philo->fork_left, philo->is_fork_left_busy);
+	ft_sleep(ft_get_tv(),
+		ft_max_time_before_dying_in_us(philo,
 			philo->timings.time_to_sleep_in_us));
 }
 

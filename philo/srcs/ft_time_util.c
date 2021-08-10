@@ -17,6 +17,7 @@ long long	ft_delta_tv_in_us(t_timeval old_tv, t_timeval new_tv)
 
 void	ft_sleep(t_timeval start_time, int time_to_sleep_in_us)
 {
+	usleep(time_to_sleep_in_us - time_to_sleep_in_us / 10);
 	while (ft_delta_tv_in_us(start_time, ft_get_tv())
 		<= time_to_sleep_in_us)
 		continue ;

@@ -1,6 +1,7 @@
 #include "philosophers.h"
 
 static bool	ft_set_busy_forks(t_philo *philo);
+static bool	ft_take_single_fork(pthread_mutex_t *fork, bool *is_fork_busy);
 
 bool	ft_take_forks(t_philo *philo)
 {
@@ -16,25 +17,36 @@ bool	ft_take_forks(t_philo *philo)
 
 static bool	ft_set_busy_forks(t_philo *philo)
 {
-	bool	forks_taken;
-
-	forks_taken = false;
-	ft_lock_mutex(philo->forks_mutex);
-	if (*(philo->is_fork_left_busy) == false
-		&& *(philo->is_fork_right_busy) == false)
+	if (ft_take_single_fork(philo->fork_right, philo->is_fork_right_busy))
 	{
-		*(philo->is_fork_left_busy) = true;
-		*(philo->is_fork_right_busy) = true;
-		forks_taken = true;
+		if (ft_take_single_fork(philo->fork_left, philo->is_fork_left_busy))
+			return (true);
+		else
+			ft_release_fork(philo->fork_right, philo->is_fork_right_busy);
+		return (false);
 	}
-	ft_unlock_mutex(philo->forks_mutex);
-	return (forks_taken);
+	else
+		return (false);
 }
 
-void	ft_release_forks(t_philo *philo)
+static bool	ft_take_single_fork(pthread_mutex_t *fork, bool *is_fork_busy)
 {
-	ft_lock_mutex(philo->forks_mutex);
-	*(philo->is_fork_left_busy) = false;
-	*(philo->is_fork_right_busy) = false;
-	ft_unlock_mutex(philo->forks_mutex);
+	bool	fork_taken;
+
+	fork_taken = false;
+	ft_lock_mutex(fork);
+	if (*(is_fork_busy) == false)
+	{
+		*(is_fork_busy) = true;
+		fork_taken = true;
+	}
+	ft_unlock_mutex(fork);
+	return (fork_taken);
+}
+
+void	ft_release_fork(pthread_mutex_t *fork, bool *is_fork_busy)
+{
+	ft_lock_mutex(fork);
+	*is_fork_busy = false;
+	ft_unlock_mutex(fork);
 }

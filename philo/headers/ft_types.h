@@ -53,7 +53,8 @@ typedef struct s_philo
 	t_timeval		last_eat_tv;
 	t_timings		timings;
 
-	pthread_mutex_t	*forks_mutex;
+	pthread_mutex_t	*fork_right;
+	pthread_mutex_t	*fork_left;
 	bool			*is_fork_right_busy;
 	bool			*is_fork_left_busy;
 
@@ -67,7 +68,7 @@ typedef struct s_data
 	bool			*is_fork_busy;
 	pthread_t		*philo_threads;
 
-	pthread_mutex_t	*forks_mutex;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	*printer_mutex;
 }			t_data;
 

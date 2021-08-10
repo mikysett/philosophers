@@ -11,7 +11,7 @@ t_data	ft_init_data(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 		ft_exit_error(NULL, WRONG_ARGUMENT_NB);
-	data.forks_mutex = ft_init_forks_mutex();
+	data.forks = ft_init_forks(data.nb_philo);
 	data.printer_mutex = ft_init_printer_mutex();
 	data.nb_philo = ft_save_number(argv[1]);
 	data.is_fork_busy = ft_init_is_fork_busy(data.nb_philo);

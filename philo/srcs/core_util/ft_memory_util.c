@@ -1,17 +1,31 @@
 #include "philosophers.h"
 
+static void	ft_free_forks(t_data *data);
+
 void	ft_free_data(t_data *data)
 {
 	if (data)
 	{
-		ft_destroy_mutex(data->forks_mutex);
+		ft_free_forks(data);
 		ft_destroy_mutex(data->printer_mutex);
-		free(data->forks_mutex);
 		free(data->printer_mutex);
 		free(data->is_fork_busy);
 		free(data->philo_threads);
 		free(data->philo);
 	}
+}
+
+static void	ft_free_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		ft_destroy_mutex(&data->forks[i]);
+		i++;
+	}
+	free(data->forks);
 }
 
 bool	*ft_init_is_fork_busy(int nb_philo)
