@@ -58,5 +58,6 @@ static void	ft_do_think(t_philo *philo)
 {
 	philo->state = thinking;
 	ft_print_state_or_kill(philo);
-	usleep(MIN_THINK_TIME);
+	usleep(ft_max_time_before_dying_in_us(philo,
+		philo->timings.min_time_to_think_in_us));
 }

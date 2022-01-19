@@ -23,14 +23,19 @@ t_data	ft_init_data(int argc, char **argv)
 
 static t_timings	ft_init_timings(int argc, char **argv)
 {
-	t_timings	timings;
+	t_timings	t;
 
-	timings.time_to_die_us = ft_save_number(argv[2]) * 1000;
-	timings.time_to_eat_in_us = ft_save_number(argv[3]) * 1000;
-	timings.time_to_sleep_in_us = ft_save_number(argv[4]) * 1000;
-	timings.nb_times_to_eat = ft_set_nb_times_to_eat(argc, argv);
-	timings.start_time = ft_get_tv();
-	return (timings);
+	t.time_to_die_us = ft_save_number(argv[2]) * 1000;
+	t.time_to_eat_in_us = ft_save_number(argv[3]) * 1000;
+	t.time_to_sleep_in_us = ft_save_number(argv[4]) * 1000;
+	t.nb_times_to_eat = ft_set_nb_times_to_eat(argc, argv);
+	t.start_time = ft_get_tv();
+	if (t.time_to_sleep_in_us < t.time_to_eat_in_us)
+		t.min_time_to_think_in_us =
+			t.time_to_eat_in_us - t.time_to_sleep_in_us + MIN_THINK_TIME;
+	else
+		t.min_time_to_think_in_us = MIN_THINK_TIME;
+	return (t);
 }
 
 static int	ft_set_nb_times_to_eat(int argc, char **argv)

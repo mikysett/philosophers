@@ -30,6 +30,7 @@ typedef struct s_timings
 	long		time_to_die_us;
 	long		time_to_eat_in_us;
 	long		time_to_sleep_in_us;
+	long		min_time_to_think_in_us;
 	int			nb_times_to_eat;
 }			t_timings;
 
