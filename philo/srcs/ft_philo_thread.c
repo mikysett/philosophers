@@ -38,7 +38,9 @@ static void	ft_try_eat(t_philo *philo)
 		philo->state = eating;
 		ft_print_state_or_kill(philo);
 		philo->last_eat_tv = ft_get_tv();
-		ft_sleep(philo->last_eat_tv, philo->timings.time_to_eat_in_us);
+		ft_sleep(philo->last_eat_tv,
+			ft_max_time_before_dying_in_us(philo,
+				philo->timings.time_to_eat_in_us));
 		philo->nb_meals++;
 	}
 }
